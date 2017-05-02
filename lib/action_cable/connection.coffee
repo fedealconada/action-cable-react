@@ -61,7 +61,10 @@ class Connection
         when message_types.rejection
           @consumer.subscriptions.reject(identifier)
         else
-          @consumer.subscriptions.notify(identifier, 'received', message)
+          if identifier
+            @consumer.subscriptions.notify(identifier, 'received', message)
+          else
+            @consumer.subscriptions.notify('received', message)
 
     open: ->
       @disconnected = false
